@@ -1,0 +1,22 @@
+# Training Hyperparameters
+batch_size: 32
+learning_rate: 0.00005
+epochs: 1500
+window_size: 600
+transcription_len: 256
+prefetch_factor: 2
+num_workers: 4
+tokenization_level: char
+save_every_epoch: 100
+
+# Dataset Paths
+data_dir: "./processed_data"
+log_dir: "./runs/asr_experiment_1"
+checkpoint_dir: "./checkpoints"
+
+# Model Architecture
+projection_dim: 512
+num_heads: 8
+num_enc: 5
+feedforward_dim: 256
+dropout: 0.1

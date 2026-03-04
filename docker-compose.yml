@@ -1,0 +1,19 @@
+
+services:
+  asr:
+    build: .
+    image: asr-diffusion-app:latest
+    container_name: asr-container
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+    shm_size: "4gb"
+
+    working_dir: /app
+    tty: true

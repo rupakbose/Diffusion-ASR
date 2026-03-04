@@ -46,5 +46,23 @@ root@xxxxxx:/app# python3 inference.py
 
 ## Training loss and metric curves
 
-| ![Masked cross entropy loss graph](./images/Loss_train.jpg "Masked cross entropy loss") | ![CER graph](./images/metric_CER.jpg "CER training") | ![WER graph](./images/metric_WER.jpg "WER graph") |
-| **Description 1** | **Description 2** | **Description 3** |
+<div align="center">
+
+<table>
+<tr>
+  <td align="center">
+    <img src="./images/Loss_train.jpg" alt="Masked cross entropy loss" width="250"/><br/>
+    <strong>Training Loss</strong>
+  </td>
+  <td align="center">
+    <img src="./images/metric_CER.jpg" alt="CER" width="250"/><br/>
+    <strong>Character Error Rate (CER)</strong>
+  </td>
+  <td align="center">
+    <img src="./images/metric_WER.jpg" alt="WER" width="250"/><br/>
+    <strong>Word Error Rate (WER)</strong>
+  </td>
+</tr>
+</table>
+
+</div>

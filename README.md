@@ -30,4 +30,9 @@ docker compose run --rm asr
 
 You will get a bash prompt inside the container at /app.
 All code, logs, and checkpoints are inside the container.
-GPU is available automatically.
+
+Once inside the interactive container shell, to run training,
+
+```bash
+root@xxxxxx:/app# python3 train.py
+```

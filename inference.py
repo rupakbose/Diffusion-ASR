@@ -168,6 +168,6 @@ def run_inference(audio_path, checkpoint_path, config_path="config.yaml", steps 
 
 if __name__ == "__main__":
     CHECKPOINT = "./checkpoints/20260304_1154_affectionate_bose/model_epoch_1100.pt"
-    SAMPLE_AUDIO = "./Dataset/dev-clean-2/LibriSpeech/dev-clean-2/3536/23268/3536-23268-0008.flac"
+    SAMPLE_AUDIO = "./Dataset/dev-clean-2/5895/34615/5895-34615-0000.flac"
     STEPS = 10
     run_inference( audio_path= SAMPLE_AUDIO, checkpoint_path= CHECKPOINT, steps= STEPS)

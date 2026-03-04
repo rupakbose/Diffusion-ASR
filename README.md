@@ -20,3 +20,17 @@ You can run training interactively and save metrics/loss plots as SVG images.
 # Build the Docker image using Docker Compose
 docker compose build
 ```
+
+---
+
+## Run Interactive Container
+
+```bash
+# Start an interactive bash shell inside the container
+docker compose run --rm asr
+
+
+You will get a bash prompt inside the container at /app.
+All code, logs, and checkpoints are inside the container.
+GPU is available automatically.
+```

@@ -36,3 +36,10 @@ Once inside the interactive container shell, to run training,
 ```bash
 root@xxxxxx:/app# python3 train.py
 ```
+
+To run inference, change the audio path, steps, and the checkpoint in the inference.py.
+Then run
+
+```bash
+root@xxxxxx:/app# python3 inference.py
+```

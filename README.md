@@ -46,4 +46,4 @@ root@xxxxxx:/app# python3 inference.py
 
 ## Training loss and metric curves
 
-![loss curve](./images/Loss_train.svg)
+![loss curve](./images/Loss_train.jpg)

@@ -28,9 +28,8 @@ docker compose build
 ```bash
 # Start an interactive bash shell inside the container
 docker compose run --rm asr
-
+```
 
 You will get a bash prompt inside the container at /app.
 All code, logs, and checkpoints are inside the container.
 GPU is available automatically.
-```

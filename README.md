@@ -70,3 +70,7 @@ root@xxxxxx:/app# python3 inference.py
 ## Sample ASR inference using 3000 denoising steps
 
 ![](https://github.com/rupakbose/Diffusion-ASR/blob/main/video/inference.gif)
+
+## Sample ASR inference using 100 denoising steps
+
+![](https://github.com/rupakbose/Diffusion-ASR/blob/main/video/inference100.gif)

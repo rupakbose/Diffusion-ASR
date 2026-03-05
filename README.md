@@ -43,16 +43,25 @@ root@xxxxxx:/app# python3 train.py
 
 ## Algorithm 2: Supervised Fine-Tuning of LLaDA
 
-**Require:** mask predictor $p_\theta$, pair data distribution $p_{\text{data}}$
-
-1. **repeat**
-2. &nbsp;&nbsp; $p_0, r_0 \sim p_{\text{data}}$ <p align="right"><i># please refer to Appendix B.1 for details about the SFT data</i></p>
-3. &nbsp;&nbsp; $t \sim \text{U}(0, 1)$
-4. &nbsp;&nbsp; $r_t \sim q_{t|0}(r_t | r_0)$ <p align="right"><i># $q_{t|0}$ is defined in Eq. (7)</i></p>
-5. &nbsp;&nbsp; Calculate $\mathcal{L} = -\frac{1}{t \cdot L'} \sum_{i=1}^{L'} \mathbf{1}[r_t^i = \text{M}] \log p_\theta(r_0^i | p_0, r_t)$ <p align="right"><i># $L'$ is the sequence length of $r_0$</i></p>
-6. &nbsp;&nbsp; Calculate $\nabla_\theta \mathcal{L}$ and run optimizer.
-7. **until** Converged
-8. **Return** $p_\theta$
+$$
+\begin{array}{l}
+\hline
+\mathbf{Algorithm\ 2} \text{ Supervised Fine-Tuning of LLaDA} \\
+\hline
+\textbf{Require: } \text{mask predictor } p_\theta, \text{ pair data distribution } p_{\text{data}} \\
+\begin{array}{rll}
+1: & \mathbf{repeat} \\
+2: & \quad p_0, r_0 \sim p_{\text{data}} & \text{# please refer to Appendix B.1 for details} \\
+3: & \quad t \sim \text{U}(0, 1) \\
+4: & \quad r_t \sim q_{t|0}(r_t | r_0) & \text{# } q_{t|0} \text{ is defined in Eq. (7)} \\
+5: & \quad \text{Calculate } \mathcal{L} = -\frac{1}{t \cdot L'} \sum_{i=1}^{L'} \mathbf{1}[r_t^i = \text{M}] \log p_\theta(r_0^i | p_0, r_t) & \text{# } L' \text{ is the sequence length of } r_0 \\
+6: & \quad \text{Calculate } \nabla_\theta \mathcal{L} \text{ and run optimizer.} \\
+7: & \mathbf{until} \text{ Converged} \\
+8: & \mathbf{Return} \text{ } p_\theta \\
+\end{array} \\
+\hline
+\end{array}
+$$
 
 To run inference, change the audio path, steps, and the checkpoint in the inference.py.
 Then run

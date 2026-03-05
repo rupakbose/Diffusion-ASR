@@ -1,3 +1,15 @@
+# Automatic speech recognition using Difussion language models
+
+Current ASR models like Whisper, wav2vec, are largely based on next token prediction.
+They rely largely on their auto regressive nature of predictions.
+They are currently limited by running the model several times to transcribe the whole sentence.
+This severely impacts their speed of inference in cases of longer sentences that need to be predicted.
+The advent of Large Language Diffusion Models has shown promise in generating several tokens in parallel.
+This shows improved generation performance in terms of time, which is pronounced in case of larger sentences.
+
+In this project, we adapt LLaDa, a supervised finetuning protocol for ASR, and generate transcriptions using denoising process.
+We adapt the scaled loss in Algorithm 2 to optimise our network and showcase that transcriiption is possible using diffusion protocol.
+
 # Diffusion ASR Training (Docker Compose)
 
 This project contains a self-contained Docker environment for training an ASR (Automatic Speech Recognition) diffusion model. All dependencies, code, and logs live **inside the container**, so no host mounting is required.

@@ -5,9 +5,8 @@ They are autoregressive models that predict the next token in the sequence.
 Such models have a bottleneck with inference speeds when transcribing long sentences.
 
 [Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992) (LLaDA) [18 oct 2025], is a diffusion model that generates language as a probabilistic inference.
-It's a masked language model that uses iterative denoising process to generate tokens parallel in contrast to sequence to sequence models.
+It's a masked language model that uses iterative denoising process to generate tokens parallel in contrast to sequence to sequence models. It is pretrained for masked prediction by a transformer model.
 
-It is pretrained as for masked prediction by a transformer model.
 Once pretrained, it follows a supervised finetuning (SFT) where the dataset is in the form of prompts and responses.
 The responses are masked using a probability distribution and then the loss is computed only on the masked predictions.
 During the inference process, we start with a completely masked response and iteratively denoise the predicted tokens over sampling steps.
@@ -25,6 +24,22 @@ Additionally, we adapt the scaled loss in Algorithm 2 to optimise our network an
 <div align="center">
     <img src="./images/algo2.jpg" alt="Algo" width="500" />
 </div>
+
+### Pipeline and Contributions
+
+1. Audio file is processed by wav2vec from facebook to give us audio_features [bs, h, 768]
+2. These audio_features are then processes for padding by randomly sampling window_size indices < h and sorting them to get src [bs, window_size, 768]. There are oother methods to process but I did this to take temporally coherent and dropped features.
+3. The transcription is tokenized and padded to transcription_length to get input_ids.
+4. The input_ids are masked to get masked_ids. The scr and masked_ids are the inputs to the transformer model.
+
+- Complete Transformer model with multihead attention and sinosoidal positional embedding is implemented by us.
+- the masking strategy following a bernoulli distribution is implemented by us.
+
+5. Loss is computed between the predicted masked tokens and ground truth.
+
+- Loss scaling logic following Algorithm 2 is implemented by us
+
+6. Grandient clipping is done for stability purposes
 
 # Diffusion ASR Training (Docker Compose)
 

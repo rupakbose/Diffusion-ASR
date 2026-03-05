@@ -41,6 +41,7 @@ root@xxxxxx:/app# python3 train.py
 
 [Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992)
 
+<div align="left">
 $$
 \begin{array}{l}
 \hline
@@ -60,6 +61,7 @@ $$
 \hline
 \end{array}
 $$
+</div>
 
 To run inference, change the audio path, steps, and the checkpoint in the inference.py.
 Then run

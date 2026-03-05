@@ -41,29 +41,7 @@ root@xxxxxx:/app# python3 train.py
 
 [Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992)
 
-<div align="left">
-
-$$
-\begin{array}{l}
-\hline
-\textbf{Algorithm 2} \text{ Supervised Fine-Tuning of LLaDA} \\
-\hline
-\textbf{Require: } \text{mask predictor } p_{\theta}, \text{ pair data distribution } p_{\text{data}} \\
-\begin{array}{ll}
-1: & \mathbf{repeat} \\
-2: & \quad p_0, r_0 \sim p_{\text{data}} \hfill \text{// please refer to Appendix B.1 for details} \\
-3: & \quad t \sim \text{U}(0, 1) \\
-4: & \quad r_t \sim q_{t|0}(r_t \mid r_0) \hfill \text{// } q_{t|0} \text{ is defined in Eq. (7)} \\
-5: & \quad \text{Calculate } \mathcal{L} = -\frac{1}{t \cdot L'} \sum_{i=1}^{L'} \mathbf{1}[r_t^i = \text{M}] \log p_{\theta}(r_0^i \mid p_0, r_t) \hfill \text{// } L' \text{ is the sequence length of } r_0 \\
-6: & \quad \text{Calculate } \nabla_{\theta}\mathcal{L} \text{ and run optimizer.} \\
-7: & \mathbf{until} \text{ Converged} \\
-8: & \mathbf{Return} \text{ } p_{\theta} \\
-\end{array} \\
-\hline
-\end{array}
-$$
-
-</div>
+<img src="./images/algo2.jpg" alt="Algo" width="250" />
 
 To run inference, change the audio path, steps, and the checkpoint in the inference.py.
 Then run

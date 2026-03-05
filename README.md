@@ -41,7 +41,7 @@ root@xxxxxx:/app# python3 train.py
 
 [Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992)
 
-<img src="./images/algo2.jpg" alt="Algo" width="250" />
+<img src="./images/algo2.jpg" alt="Algo" width="500" />
 
 To run inference, change the audio path, steps, and the checkpoint in the inference.py.
 Then run

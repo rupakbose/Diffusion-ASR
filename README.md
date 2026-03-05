@@ -25,54 +25,21 @@ Additionally, we adapt the scaled loss in Algorithm 2 to optimise our network an
     <img src="./images/algo2.jpg" alt="Algo" width="500" />
 </div>
 
-## Pipeline and Contributions
+### Pipeline and Contributions
 
-### 1. Feature Extraction
-
-The process begins by passing the raw audio through a **wav2vec** model to extract high-level acoustic representations. This results in an initial feature set $audio\_features$ with dimensions `[batch_size, sequence_length, 768]`.
-
-### 2. Temporal Sampling and Padding
-
-To maintain temporal coherence while managing computational load, we process the audio features by:
-
-- Randomly sampling `window_size` indices where the index $i < \text{sequence\_length}$.
-- Sorting these indices to preserve the chronological flow of the audio.
-- Constructing a source tensor $src$ of shape `[batch_size, window_size, 768]`.
-
-> **Design Choice:** This method effectively drops redundant features while ensuring the remaining data points are temporally aligned.
-
-### 3. Text Tokenization
-
-The target transcription is tokenized and padded to a fixed `transcription_length` to generate the `input_ids`. These IDs serve as the ground truth for our denoising process.
-
-### 4. Bernoulli Masking and Model Input
-
-Following a **Bernoulli distribution**, we apply a masking strategy to the `input_ids` to create `masked_ids`.
-
-- The transformer model receives both the sampled audio features ($src$) and the $masked\_ids$ as inputs.
-- **Custom Architecture:** We implemented a complete **Transformer model** from scratch, including:
-  - Multi-head Attention mechanisms.
-  - Sinusoidal Positional Embeddings to capture sequence order.
-
-### 5. Optimization via Scaled Loss
-
-The model is tasked with predicting the original tokens beneath the mask.
-
-- Loss is computed between the predicted masked tokens and the ground truth.
-- **Algorithm Implementation:** We integrated the **scaled loss logic** from **Algorithm 2** to optimize the network specifically for the diffusion-based fine-tuning protocol.
-
-### 6. Training Stability
-
-To ensure robust convergence and prevent gradient explosions during the diffusion process, we utilize **gradient clipping** as a final step in the optimization pipeline.
-
----
+1. Audio file is processed by wav2vec from facebook to give us `audio_features` [bs, h, 768]
+2. These audio_features are then processes for padding by randomly sampling num `window_size` indices < h and sorting them to get `src` [bs, window_size, 768]. There are other methods to process but we did this to take temporally coherent and dropped features.
+3. The transcription is tokenized and padded to transcription_length to get `input_ids`.
+4. The input_ids are masked to get `masked_ids`. The scr and `masked_ids` are the inputs to the transformer model.
+5. `Loss` is computed between the predicted masked tokens and ground truth.
+6. Grandient clipping is done for stability purposes.
 
 ### Implementation Highlights
 
 | Component             | Status          | Description                                               |
 | :-------------------- | :-------------- | :-------------------------------------------------------- |
-| **Transformer Model** | **Custom**      | Full implementation of Attention and Positional Encoding. |
-| **Masking Strategy**  | **Custom**      | Bernoulli-based masking for diffusion denoising.          |
+| **Transformer Model** | **Self**        | Full implementation of Attention and Positional Encoding. |
+| **Masking Strategy**  | **Self**        | Bernoulli-based masking for diffusion denoising.          |
 | **Scaled Loss**       | **Algorithm 2** | Adapted from LLaDA for Supervised Fine-Tuning (SFT).      |
 
 # Diffusion ASR Training (Docker Compose)

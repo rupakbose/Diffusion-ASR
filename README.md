@@ -30,7 +30,7 @@ Additionally, we adapt the scaled loss in Algorithm 2 to optimise our network an
 1. Audio file is processed by wav2vec from facebook to give us `audio_features` [bs, h, 768]
 2. These audio_features are then processes for padding by randomly sampling num `window_size` indices < h and sorting them to get `src` [bs, window_size, 768]. There are other methods to process but we did this to take temporally coherent and dropped features.
 3. The transcription is tokenized and padded to transcription_length to get `input_ids`.
-4. The input_ids are masked to get `masked_ids`. The scr and `masked_ids` are the inputs to the transformer model.
+4. The input\*ids are masked using a _Bernoulli_ distribution to get `masked_ids`. The scr and `masked_ids` are the inputs to the transformer model.
 5. `Loss` is computed between the predicted masked tokens and ground truth.
 6. Grandient clipping is done for stability purposes.
 

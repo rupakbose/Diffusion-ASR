@@ -67,4 +67,13 @@ root@xxxxxx:/app# python3 inference.py
 
 </div>
 
-![Inference video](./video/inference.gif)
+<div align="center">
+  <picture>
+    <!-- Primary format: GIF -->
+    <source srcset="./videos/inference.gif" type="image/gif">
+    <!-- Fallback in case GIF is not supported -->
+    <img src="./videos/inference.gif" alt="ASR inference demo" width="500"/>
+  </picture>
+  <br/>
+  <strong>Sample ASR Inference (Looping GIF)</strong>
+</div>

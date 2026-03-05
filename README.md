@@ -1,4 +1,4 @@
-# Automatic speech recognition using Difussion language models
+# Automatic speech recognition using Diffusion language models
 
 Current ASR models like Whisper, wav2vec, are largely based on next token prediction.
 They rely largely on their auto regressive nature of predictions.
@@ -9,6 +9,10 @@ This shows improved generation performance in terms of time, which is pronounced
 
 In this project, we adapt LLaDa, a supervised finetuning protocol for ASR, and generate transcriptions using denoising process.
 We adapt the scaled loss in Algorithm 2 to optimise our network and showcase that transcriiption is possible using diffusion protocol.
+
+<div align="center">
+    <img src="./images/archi.jpg" alt="Algo" width="500" />
+</div>
 
 # Diffusion ASR Training (Docker Compose)
 
@@ -53,7 +57,9 @@ root@xxxxxx:/app# python3 train.py
 
 [Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992)
 
-<img src="./images/algo2.jpg" alt="Algo" width="500" />
+<div align="center">
+    <img src="./images/algo2.jpg" alt="Algo" width="500" />
+</div>
 
 To run inference, change the audio path, steps, and the checkpoint in the inference.py.
 Then run

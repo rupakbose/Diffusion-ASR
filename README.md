@@ -37,6 +37,23 @@ Once inside the interactive container shell, to run training,
 root@xxxxxx:/app# python3 train.py
 ```
 
+## Adapting LLaDA loss for ASR
+
+[Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992)
+
+## Algorithm 2: Supervised Fine-Tuning of LLaDA
+
+**Require:** mask predictor $p_\theta$, pair data distribution $p_{\text{data}}$
+
+1. **repeat**
+2. &nbsp;&nbsp; $p_0, r_0 \sim p_{\text{data}}$ <p align="right"><i># please refer to Appendix B.1 for details about the SFT data</i></p>
+3. &nbsp;&nbsp; $t \sim \text{U}(0, 1)$
+4. &nbsp;&nbsp; $r_t \sim q_{t|0}(r_t | r_0)$ <p align="right"><i># $q_{t|0}$ is defined in Eq. (7)</i></p>
+5. &nbsp;&nbsp; Calculate $\mathcal{L} = -\frac{1}{t \cdot L'} \sum_{i=1}^{L'} \mathbf{1}[r_t^i = \text{M}] \log p_\theta(r_0^i | p_0, r_t)$ <p align="right"><i># $L'$ is the sequence length of $r_0$</i></p>
+6. &nbsp;&nbsp; Calculate $\nabla_\theta \mathcal{L}$ and run optimizer.
+7. **until** Converged
+8. **Return** $p_\theta$
+
 To run inference, change the audio path, steps, and the checkpoint in the inference.py.
 Then run
 

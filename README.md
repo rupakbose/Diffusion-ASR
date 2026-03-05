@@ -1,6 +1,6 @@
 # Automatic speech recognition using Diffusion language models
 
-Traditional ASR models like Whisper and wav2vec are sequence to sequence models.
+Traditional ASR models like Zipformer, Conformer, ESPNet, Whisper and wav2vec are sequence to sequence models.
 They are autoregressive models that predict the next token in the sequence.
 Such models have a bottleneck with inference speeds when transcribing long sentences.
 

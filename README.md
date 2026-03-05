@@ -1,17 +1,29 @@
 # Automatic speech recognition using Diffusion language models
 
-Current ASR models like Whisper, wav2vec, are largely based on next token prediction.
-They rely largely on their auto regressive nature of predictions.
-They are currently limited by running the model several times to transcribe the whole sentence.
-This severely impacts their speed of inference in cases of longer sentences that need to be predicted.
-The advent of Large Language Diffusion Models has shown promise in generating several tokens in parallel.
-This shows improved generation performance in terms of time, which is pronounced in case of larger sentences.
+Traditional ASR models like Whisper and wav2vec are sequence to sequence models.
+They are autoregressive models that predict the next token in the sequence.
+Such models have a bottleneck with inference speeds when transcribing long sentences.
 
-In this project, we adapt LLaDa, a supervised finetuning protocol for ASR, and generate transcriptions using denoising process.
-We adapt the scaled loss in Algorithm 2 to optimise our network and showcase that transcriiption is possible using diffusion protocol.
+[Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992) (LLaDA) [18 oct 2025], is a diffusion model that generates language as a probabilistic inference.
+It's a masked language model that uses iterative denoising process to generate tokens parallel in contrast to sequence to sequence models.
+
+It is pretrained as for masked prediction by a transformer model.
+Once pretrained, it follows a supervised finetuning (SFT) where the dataset is in the form of prompts and responses.
+The responses are masked using a probability distribution and then the loss is computed only on the masked predictions.
+During the inference process, we start with a completely masked response and iteratively denoise the predicted tokens over sampling steps.
+
+In this project, we adapt LLaDa's supervised finetuning protocol for ASR, and generate transcriptions using denoising process.
+We utilise audio features in place of prompts, and transcripts in place od responses and do masked modelling.
+The architecture is as follows:
 
 <div align="center">
-    <img src="./images/archi.jpg" alt="Algo" width="500" />
+    <img src="./images/archi.jpg" alt="archi" width="500" />
+</div>
+
+Additionally, we adapt the scaled loss in Algorithm 2 to optimise our network and showcase that transcriiption is possible using diffusion protocol.
+
+<div align="center">
+    <img src="./images/algo2.jpg" alt="Algo" width="500" />
 </div>
 
 # Diffusion ASR Training (Docker Compose)
@@ -53,14 +65,6 @@ Once inside the interactive container shell, to run training,
 root@xxxxxx:/app# python3 train.py
 ```
 
-## Adapting LLaDA loss for ASR
-
-[Large Language Diffusion Models](https://doi.org/10.48550/arXiv.2502.09992)
-
-<div align="center">
-    <img src="./images/algo2.jpg" alt="Algo" width="500" />
-</div>
-
 To run inference, change the audio path, steps, and the checkpoint in the inference.py.
 Then run
 
@@ -91,10 +95,10 @@ root@xxxxxx:/app# python3 inference.py
 
 </div>
 
-## Sample ASR inference using 3000 denoising steps
+## ASR inference using 3000 denoising steps
 
 ![](https://github.com/rupakbose/Diffusion-ASR/blob/main/video/inference.gif)
 
-## Sample ASR inference using 100 denoising steps
+## ASR inference using 100 denoising steps
 
 ![](https://github.com/rupakbose/Diffusion-ASR/blob/main/video/inference100.gif)

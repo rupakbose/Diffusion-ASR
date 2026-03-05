@@ -77,3 +77,5 @@ root@xxxxxx:/app# python3 inference.py
   <br/>
   <strong>Sample ASR Inference (Looping GIF)</strong>
 </div>
+
+![](https://github.com/rupakbose/Diffusion-ASR/blob/main/video/inference.gif)

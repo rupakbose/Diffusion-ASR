@@ -1,11 +1,10 @@
 import torch
 from typing import List, Tuple, Any, Iterable
 
-def preprocess_text_batch(raw_texts, tokenizer, device, target_len=256): # Increased for Char level
+def preprocess_text_batch(raw_texts, tokenizer, device, target_len=256):
     """Tokenizes and pads text to a fixed target length."""
     encoded_list = [tokenizer.encode(t) for t in raw_texts]
     
-    # Get the PAD ID once
     pad_id = tokenizer.word2idx[tokenizer.pad_token]
     
     text_tokens = torch.nn.utils.rnn.pad_sequence(
@@ -22,7 +21,6 @@ def preprocess_text_batch(raw_texts, tokenizer, device, target_len=256): # Incre
             value=pad_id
         )
     else:
-        # If character level, this truncate is very likely to happen if target_len is 70
         text_tokens = text_tokens[:, :target_len]
         
     return text_tokens
@@ -39,20 +37,16 @@ def decode_sequences(
     def _tokens_to_text(token_ids: Iterable[Iterable[int]]) -> List[str]:
         decoded_batch = []
         for sequence in token_ids:
-            # Convert IDs to words/chars
             units = [tokenizer.idx2word.get(int(idx), tokenizer.unk_token) for idx in sequence]
             # Filter out special tokens ([PAD], [CLS], etc.)
             clean_units = [u for u in units if u not in special_tokens_to_filter]
             
             # Join logic: usually "" for char-level, " " for word-level
-            # Keeping your " ".join() logic as requested
             decoded_batch.append(" ".join(clean_units))
         return decoded_batch
 
-    # Extract predicted IDs (Argmax is enough, Softmax is redundant for selection)
     predictions = torch.argmax(logits, dim=-1).detach().cpu().numpy()
     
-    # Process both predictions and labels
     decoded_labels = _tokens_to_text(label_tokens)
     decoded_preds = _tokens_to_text(predictions)
 

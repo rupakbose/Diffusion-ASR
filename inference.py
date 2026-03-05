@@ -67,14 +67,14 @@ def load_model(checkpoint_path, config, vocab_size, device):
     return model
 
 @torch.no_grad()
-def run_inference(audio_path, checkpoint_path, config_path="config.yaml", steps = 100):
+def run_inference(audio_path, checkpoint_path, steps = 100):
 
     console = Console()
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # 1. Load Config and Tokenizer
+    config_path = Path(checkpoint_path).parent / 'config_reference.yaml'
     with open(config_path, "r") as f:
-        config = yaml.safe_load(f)
+        config = yaml.load(f, Loader=yaml.Loader)
 
     tokenizer = WordTokenizer()
     tokenizer.load(Path(checkpoint_path).parent / "tokenizer.json")
@@ -105,9 +105,8 @@ def run_inference(audio_path, checkpoint_path, config_path="config.yaml", steps 
     audio_features = sample_audio_features(raw_features, target_len=config["window_size"])
     ground_truth = get_ground_truth(audio_path)
 
-    # Initial state: everything is masked
-    # mask = torch.ones((1, target_len), dtype=torch.bool, device=device)
-    tokens = torch.full((1, target_len), mask_id, dtype=torch.long, device=device)
+    
+    tokens = torch.full((1, target_len), mask_id, dtype=torch.long, device=device) # Start with full mask tokens
 
     times = torch.linspace(1, 0, steps + 1, device=device)
     s1=0
@@ -169,5 +168,35 @@ def run_inference(audio_path, checkpoint_path, config_path="config.yaml", steps 
 if __name__ == "__main__":
     CHECKPOINT = "./checkpoints/20260304_1154_affectionate_bose/model_epoch_1100.pt"
     SAMPLE_AUDIO = "./Dataset/dev-clean-2/5895/34615/5895-34615-0000.flac"
-    STEPS = 10
+
+    parser = argparse.ArgumentParser(description="Run inference with configurable steps.")
+    
+    parser.add_argument(
+        "--checkpoint",
+        type=str,
+        default="./checkpoints/20260304_1704_intelligent_fermat/model_epoch_300.pt",
+        help="Path to model checkpoint."
+    )
+    
+    parser.add_argument(
+        "--audio",
+        type=str,
+        default="./Dataset/dev-clean-2/LibriSpeech/dev-clean-2/5895/34615/5895-34615-0000.flac",
+        help="Path to input audio file."
+    )
+    
+    parser.add_argument(
+        "--steps",
+        type=int,
+        default=100,
+        help="Number of inference steps."
+    )
+
+    args = parser.parse_args()
+
+    run_inference(
+        audio_path=args.audio,
+        checkpoint_path=args.checkpoint,
+        steps=args.steps
+    )
     run_inference( audio_path= SAMPLE_AUDIO, checkpoint_path= CHECKPOINT, steps= STEPS)

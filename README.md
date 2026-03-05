@@ -68,10 +68,7 @@ root@xxxxxx:/app# python3 inference.py
 </div>
 
 <div align="center">
-  <video width="500" autoplay loop muted playsinline>
-    <source src="./videos/inference.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <img src="./videos/inference.gif" alt="ASR inference demo" width="500"/>
   <br/>
-  <strong>Sample ASR Inference (Auto-play & Loop)</strong>
+  <strong>Sample ASR Inference (Looping GIF)</strong>
 </div>

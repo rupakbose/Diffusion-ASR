@@ -24,7 +24,7 @@ The architecture is as follows:
 
 ### Contrastive pre training for speaker identification
 
-Initially, we train a transformer model for speaker identity embedding. We use a contrastive learning method to bring audio features of the same speaker closer to each other in the euclidean space and features of different speakers away from wach other with a margin of 1. We use Siamese networks to obtain anchor feactures, positive and negative features as below.
+Initially, we train a transformer model for speaker identity embedding. We use a contrastive learning method to bring audio features of the same speaker closer to each other in the euclidean space and features of different speakers away from wach other with a margin of 1. We use siamese network to obtain anchor features, positive and negative features as below.
 
 <div align="center">
     <img src="./images/contrastive.jpg" alt="contrastive" width="500" />

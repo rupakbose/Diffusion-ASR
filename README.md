@@ -12,8 +12,17 @@ The responses are masked using a probability distribution and then the loss is c
 During the inference process, we start with a completely masked response and iteratively denoise the predicted tokens over sampling steps.
 
 In this project, we adapt LLaDa's supervised finetuning protocol for ASR, and generate transcriptions for a referenced speaker using denoising process.
+
+This project is in 3 parts:
+
+- [Contrastive pretraining for speaker identification](#contrastive-pre-training-for-speaker-identification)
+- [SFT for conditional transcription from noisy audio](#sft-mask-prediction-from-noisy-audio)
+- [Uncertainty quantification in generated transcription](#uncertainty-quantification-in-generated-transcription)
+
 We utilise audio features in place of prompts, and transcripts in place od responses and do masked modelling.
 The architecture is as follows:
+
+### Contrastive pre training for speaker identification
 
 Initially, we train a transformer model for speaker identity embedding. We use a contrastive learning method to bring audio features of the same speaker closer to each other in the euclidean space and features of different speakers away from wach other with a margin of 1. We use Siamese networks to obtain anchor feactures, positive and negative features as below.
 
@@ -21,11 +30,15 @@ Initially, we train a transformer model for speaker identity embedding. We use a
     <img src="./images/contrastive.jpg" alt="contrastive" width="500" />
 </div>
 
+### SFT mask prediction from noisy audio
+
 The conditional unmasking algorithm takes a noisy input. The noisy input is a audio of teh reference speaker mixed with several other speakers with different signal to noise ratios (-20 dB to 5 dB). We give the network a condition as speaker feature to decode and transcribe only what that speaker is saying. This is done as below.
 
 <div align="center">
     <img src="./images/conditional.jpg" alt="conditional" width="500" />
 </div>
+
+### Uncertainty quantification in generated transcription
 
 Given the input audio features are a mixuture of signals and noise, the output will also be noisy. Traditionally, the outputs are assumed to be $X$, but in thios case we assume it to be $\tilde{X} = X + \epsilon$, where $\epsilon$ is assumed to be normally distributed. Inoreder to achieve this, we run a parameterised transformer that predicts $\mu$ and $\sigma$. We do variational inference by taking a sample from $\sim N (\mu, \sigma)$ and getting the logits. While inference, the $\mu$ gives the predicted logits and $\sigma$ gives the associatd uncertainty. This is shown below.[ => See inference with uncertainty heatmap here <= ](#asr-inference-using-3000-denoising-steps-with-uncertainty-heatmap)
 
